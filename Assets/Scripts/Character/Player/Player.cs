@@ -1,0 +1,35 @@
+using UnityEngine;
+using UnityEngine.InputSystem;
+public class Player : MonoBehaviour
+{
+    public Vector2 moveVector;
+    private Rigidbody2D _rb;
+    private Animator _playerAnimator;
+    private SpriteRenderer _playerRenderer;
+    [SerializeField]private float speed;
+    public static Player Instance;
+    void Start()
+    {
+        Instance = this;
+        _rb = GetComponent<Rigidbody2D>();
+        _playerAnimator = GetComponent<Animator>();
+        _playerRenderer = GetComponent<SpriteRenderer>();
+    }
+    void Update()
+    {
+        _rb.velocity = moveVector * speed;
+        _playerAnimator.SetBool("IsRun", _rb.velocity != Vector2.zero);
+    }
+    public void Move(InputAction.CallbackContext ctx)
+    {
+        moveVector = ctx.ReadValue<Vector2>();
+        if(moveVector.x < 0)
+        {
+            _playerRenderer.flipX = true;
+        }
+        else if(moveVector.x > 0)
+        {
+            _playerRenderer.flipX = false;
+        }
+    }
+}
