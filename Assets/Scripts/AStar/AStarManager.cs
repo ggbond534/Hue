@@ -112,9 +112,7 @@ public class PriorityQueue<TElement, TPriority>
 
     private void Swap(int index1, int index2)
     {
-        var temp = _heap[index1];
-        _heap[index1] = _heap[index2];
-        _heap[index2] = temp;
+        (_heap[index1], _heap[index2]) = (_heap[index2], _heap[index1]);
         _elementIndices[_heap[index1].Element] = index1;
         _elementIndices[_heap[index2].Element] = index2;
     }
