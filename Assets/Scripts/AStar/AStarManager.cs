@@ -161,7 +161,7 @@ public class AStarManager:MonoBehaviour
             {
                 for (int i = -1; i <= 1; i++)
                 {
-                    if (n == 0 && i == 0) continue;
+                    if ((n == 0 && i == 0) || (n != 0 && i != 0)) continue;
                     neighborPosition.x = currentPosition.x + n;
                     neighborPosition.y = currentPosition.y + i;
                     if (!obstacleCache.TryGetValue(neighborPosition, out bool isObstacle))
@@ -170,8 +170,7 @@ public class AStarManager:MonoBehaviour
                         obstacleCache[neighborPosition] = isObstacle;
                     }
                     if (isObstacle || closeList.Contains(neighborPosition)) continue;
-                    if (n != 0 && i != 0) neighborGScore = gScore[currentPosition] + 1.4f;
-                    else neighborGScore = gScore[currentPosition] + 1.0f;
+                    neighborGScore = gScore[currentPosition] + 1.0f;
                     if(!gScore.ContainsKey(neighborPosition) || neighborGScore < gScore[neighborPosition])
                     {
                         gScore[neighborPosition] = neighborGScore;

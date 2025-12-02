@@ -25,16 +25,21 @@ namespace Character.Player
             _rb.velocity = moveVector * speed;
             _playerAnimator.SetBool(IsRun, _rb.velocity != Vector2.zero);
         }
+
         public void Move(InputAction.CallbackContext ctx)
         {
             moveVector = ctx.ReadValue<Vector2>();
-            if(moveVector.x < 0)
+            if (moveVector.x < 0 && transform.localScale.x > 0)
             {
-                _playerRenderer.flipX = true;
+                Vector3 scale = transform.localScale;
+                scale.x *= -1;
+                transform.localScale = scale;
             }
-            else if(moveVector.x > 0)
+            else if (moveVector.x > 0 && transform.localScale.x < 0)
             {
-                _playerRenderer.flipX = false;
+                Vector3 scale = transform.localScale;
+                scale.x = Mathf.Abs(scale.x);
+                transform.localScale = scale;
             }
         }
     }
