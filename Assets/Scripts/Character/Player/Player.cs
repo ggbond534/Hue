@@ -1,3 +1,5 @@
+using System.Diagnostics.Contracts;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,8 +10,11 @@ namespace Character.Player
         public Vector2 moveVector;
         private Rigidbody2D _rb;
         private Animator _playerAnimator;
+        private GameObject _bomb;
         private SpriteRenderer _playerRenderer;
+        [SerializeField]private Camera mainCamera;
         [SerializeField]private float speed;
+        [SerializeField] private GameObject bomb;
         public static Player Instance;
         private static readonly int IsRun = Animator.StringToHash("IsRun");
 
@@ -40,6 +45,23 @@ namespace Character.Player
                 Vector3 scale = transform.localScale;
                 scale.x = Mathf.Abs(scale.x);
                 transform.localScale = scale;
+            }
+        }
+
+        public void ThrowBomb(InputAction.CallbackContext ctx)
+        {
+            if (ctx.performed)
+            {
+                Vector2 screenPos = Mouse.current.position.ReadValue();
+                Vector3 worldPos = mainCamera.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, 10));
+                Vector3 bombPos = transform.GetChild(0).position;
+                _bomb = Instantiate(bomb, bombPos, Quaternion.identity);
+                ThrowableItem bombScript = _bomb.GetComponent<ThrowableItem>();
+                if (bombScript != null)
+                {
+                    bombScript.startPos = bombPos;
+                    bombScript.targetPos = worldPos;
+                }
             }
         }
     }
