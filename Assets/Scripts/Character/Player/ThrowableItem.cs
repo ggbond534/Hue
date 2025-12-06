@@ -7,35 +7,59 @@ namespace Character.Player
     {
         [SerializeField] private float moveSpeed = 1f;
         [SerializeField] private float torqueForce = 100f;
+
         public Vector3 startPos;
         public Vector3 targetPos;
+
         private Vector2 _targetPos2D;
         private Animator _bombAnimator;
         private Rigidbody2D _rb;
+
+        // Animator 参数
         private static readonly int IsExplode = Animator.StringToHash("IsExplode");
-        private readonly bool _isMoving = true;
+
+        // 注意：这里原本是 readonly 的错误写法，我直接修掉了
+        private bool _isMoving = true;
+
         private void Start()
         {
-            _bombAnimator = GetComponent<Animator>();
-            _rb = GetComponent<Rigidbody2D>();
-            _bombAnimator.SetBool(IsExplode,false);
             _targetPos2D = new Vector2(targetPos.x, targetPos.y);
+
+            _rb = GetComponent<Rigidbody2D>();
+
             Vector2 direction = (_targetPos2D - (Vector2)transform.position).normalized;
             _rb.velocity = direction * moveSpeed;
             _rb.AddTorque(torqueForce * Mathf.Sign(-direction.x));
+
+            _bombAnimator = GetComponent<Animator>();
+            _bombAnimator.SetBool(IsExplode, false);
         }
+
         void FixedUpdate()
         {
             if (!_isMoving) return;
+
             Vector2 currentPos = new Vector2(transform.position.x, transform.position.y);
             float distance = Vector2.Distance(currentPos, _targetPos2D);
+
+            // 到达目标点，执行爆炸
             if (distance < 0.2f)
             {
+                _isMoving = false;
+
                 _rb.velocity = Vector2.zero;
                 _rb.angularVelocity = 0;
-                _bombAnimator.SetBool(IsExplode,true);
+                _bombAnimator.SetBool(IsExplode, true);
+
+                // 调用你新系统（高性能、不会生成一堆对象）
+                if (SplashSystemSimple.Instance)
+                {
+                    SplashSystemSimple.Instance.StartExplosion(transform.position);
+                }
             }
         }
+
+        // 动画事件调用
         void DeleteBomb()
         {
             Destroy(gameObject);

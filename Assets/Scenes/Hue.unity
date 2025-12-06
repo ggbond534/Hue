@@ -5114,6 +5114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c5252f4f295a4344928b12a10b8b360, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  splashUnitPrefab: {fileID: 129683675566145620, guid: 2614d2bf1258809499189b6ed47946b3, type: 3}
 --- !u!114 &1334612648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5126,6 +5127,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bf043d1c5169fa42b0822e0f04370ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  baseMainSplash:
+  - {fileID: 21300000, guid: cb79ca0c98bddaf46b596c7088129690, type: 3}
+  - {fileID: 21300000, guid: 9d45bb775c6723147ba6d8d641e74f70, type: 3}
+  - {fileID: 21300000, guid: 0781c08043f8ecb458632f1222ba8f5e, type: 3}
+  - {fileID: 21300000, guid: 8c423bd17d184d7428e560eb3a4fdbc1, type: 3}
+  baseStraightSplash:
+  - {fileID: 21300000, guid: 73e49211c417a9743a6807ebab9b24f2, type: 3}
+  - {fileID: 21300000, guid: 8014b4763d6a9f540b04996b064a050e, type: 3}
+  - {fileID: 21300000, guid: f51dc1a4f792a964d876da7e01afbf39, type: 3}
+  basePixelSplash:
+  - {fileID: 21300000, guid: e06c6a5b54d60f145a7ac613e65e6a10, type: 3}
+  - {fileID: 21300000, guid: 35c24977d114b75458dca0d1cd0c7e6a, type: 3}
 --- !u!1 &1405259296
 GameObject:
   m_ObjectHideFlags: 0
