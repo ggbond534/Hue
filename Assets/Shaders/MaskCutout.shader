@@ -27,7 +27,7 @@ Shader "Custom/MaskCutout"
             float4 _MainTex_ST;
             float4 _Color;
             sampler2D _MaskTex;
-            float4 _MaskWorldBounds; // xmin, ymin, xmax, ymax
+            float4 _MaskWorldBounds;
 
             struct appdata_t
             {
@@ -55,8 +55,6 @@ Shader "Custom/MaskCutout"
             float4 frag(v2f i) : SV_Target
             {
                 float4 baseC = tex2D(_MainTex, i.uv) * _Color;
-
-                // map world pos to mask UV
                 float xmin = _MaskWorldBounds.x;
                 float ymin = _MaskWorldBounds.y;
                 float xmax = _MaskWorldBounds.z;
@@ -64,20 +62,15 @@ Shader "Custom/MaskCutout"
 
                 float u = (i.worldPos.x - xmin) / max(0.0001, (xmax - xmin));
                 float v = (i.worldPos.y - ymin) / max(0.0001, (ymax - ymin));
-                // outside range -> no mask
                 if (u < 0.0 || u > 1.0 || v < 0.0 || v > 1.0)
                 {
                     return baseC;
                 }
 
                 float4 m = tex2D(_MaskTex, float2(u, v));
-                // if mask alpha high -> make transparent (hole)
-                if (m.a > 0.01)
-                {
-                    // fully transparent (you could soften by lerp if you want)
-                    return float4(baseC.rgb, 0.0);
-                }
 
+                if (m.a > 0.01)
+                    return float4(baseC.rgb, 0.0);
                 return baseC;
             }
             ENDCG

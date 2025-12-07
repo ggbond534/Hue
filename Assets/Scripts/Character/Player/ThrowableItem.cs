@@ -1,4 +1,5 @@
 using System;
+using Splash;
 using UnityEngine;
 
 namespace Character.Player
@@ -7,20 +8,13 @@ namespace Character.Player
     {
         [SerializeField] private float moveSpeed = 1f;
         [SerializeField] private float torqueForce = 100f;
-
         public Vector3 startPos;
         public Vector3 targetPos;
-
         private Vector2 _targetPos2D;
         private Animator _bombAnimator;
         private Rigidbody2D _rb;
-
-        // Animator 参数
         private static readonly int IsExplode = Animator.StringToHash("IsExplode");
-
-        // 注意：这里原本是 readonly 的错误写法，我直接修掉了
         private bool _isMoving = true;
-
         private void Start()
         {
             _targetPos2D = new Vector2(targetPos.x, targetPos.y);
@@ -41,25 +35,18 @@ namespace Character.Player
 
             Vector2 currentPos = new Vector2(transform.position.x, transform.position.y);
             float distance = Vector2.Distance(currentPos, _targetPos2D);
-
-            // 到达目标点，执行爆炸
             if (distance < 0.2f)
             {
                 _isMoving = false;
-
                 _rb.velocity = Vector2.zero;
                 _rb.angularVelocity = 0;
                 _bombAnimator.SetBool(IsExplode, true);
-
-                // 调用你新系统（高性能、不会生成一堆对象）
                 if (SplashSystemSimple.Instance)
                 {
                     SplashSystemSimple.Instance.StartExplosion(transform.position);
                 }
             }
         }
-
-        // 动画事件调用
         void DeleteBomb()
         {
             Destroy(gameObject);
