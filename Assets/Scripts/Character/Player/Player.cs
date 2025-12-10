@@ -12,7 +12,7 @@ namespace Character.Player
         private Animator _playerAnimator;
         private GameObject _bomb;
         private SpriteRenderer _playerRenderer;
-        [SerializeField]private Camera mainCamera;
+        [SerializeField]private UnityEngine.Camera mainCamera;
         [SerializeField]private float speed;
         [SerializeField] private GameObject bomb;
         public static Player Instance;

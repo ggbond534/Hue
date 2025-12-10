@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: M_GrayTile_Mask
-  m_Shader: {fileID: 4800000, guid: 74523b2b3fa39794887d82a6a82849fc, type: 3}
+  m_Shader: {fileID: 4800000, guid: 190fe2da2ffeac24cb1f4be58bf29d52, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -45,6 +45,6 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
-    - _MaskWorldBounds: {r: 0, g: 0, b: 0, a: 0}
+    - _MaskWorldBounds: {r: 0, g: 0, b: 94, a: 20}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
