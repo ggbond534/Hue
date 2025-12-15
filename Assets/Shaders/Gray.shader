@@ -60,6 +60,10 @@ Shader "Custom/MaskCutout_Gray"
                 float ymin = _MaskWorldBounds.y;
                 float xmax = _MaskWorldBounds.z;
                 float ymax = _MaskWorldBounds.w;
+                float y0 = min(ymin, ymax);
+                float y1 = max(ymin, ymax);
+                ymin = y0;
+                ymax = y1;
 
                 float u = (i.worldPos.x - xmin) / max(0.0001, (xmax - xmin));
                 float v = (i.worldPos.y - ymin) / max(0.0001, (ymax - ymin));
