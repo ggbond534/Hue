@@ -7,6 +7,9 @@ namespace Character.Player
 {
     public class Player : MonoBehaviour
     {
+        [SerializeField] private float bombCooldown = 1.0f;
+        [SerializeField] private GameObject hiddenItem;
+        private float _nextThrowTime = 0f;
         public Vector2 moveVector;
         private Rigidbody2D _rb;
         private Animator _playerAnimator;
@@ -30,7 +33,17 @@ namespace Character.Player
             _rb.velocity = moveVector * speed;
             _playerAnimator.SetBool(IsRun, _rb.velocity != Vector2.zero);
         }
+        public void ShowHiddenItem()
+        {
+            if (hiddenItem)
+                hiddenItem.SetActive(true);
+        }
 
+        public void HideHiddenItem()
+        {
+            if (hiddenItem)
+                hiddenItem.SetActive(false);
+        }
         public void Move(InputAction.CallbackContext ctx)
         {
             moveVector = ctx.ReadValue<Vector2>();
@@ -50,18 +63,23 @@ namespace Character.Player
 
         public void ThrowBomb(InputAction.CallbackContext ctx)
         {
-            if (ctx.performed)
+            if (!ctx.performed) return;
+            if (Time.time < _nextThrowTime) return;
+            _nextThrowTime = Time.time + bombCooldown;
+
+            Vector2 screenPos = Mouse.current.position.ReadValue();
+            Vector3 worldPos = mainCamera.ScreenToWorldPoint(
+                new Vector3(screenPos.x, screenPos.y, 10)
+            );
+
+            Vector3 bombPos = transform.GetChild(0).position;
+            _bomb = Instantiate(bomb, bombPos, Quaternion.identity);
+
+            ThrowableItem bombScript = _bomb.GetComponent<ThrowableItem>();
+            if (bombScript != null)
             {
-                Vector2 screenPos = Mouse.current.position.ReadValue();
-                Vector3 worldPos = mainCamera.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, 10));
-                Vector3 bombPos = transform.GetChild(0).position;
-                _bomb = Instantiate(bomb, bombPos, Quaternion.identity);
-                ThrowableItem bombScript = _bomb.GetComponent<ThrowableItem>();
-                if (bombScript != null)
-                {
-                    bombScript.startPos = bombPos;
-                    bombScript.targetPos = worldPos;
-                }
+                bombScript.startPos = bombPos;
+                bombScript.targetPos = worldPos;
             }
         }
     }

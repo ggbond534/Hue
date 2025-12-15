@@ -59,7 +59,7 @@ namespace Splash
 #if UNITY_EDITOR
                 DestroyImmediate(_maskTex);
 #else
-            Destroy(maskTex);
+            
 #endif
                 _maskTex = null;
             }
