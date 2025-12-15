@@ -24,6 +24,6 @@
 开发依赖：Unity 2022.3.62f2c1
  
 启动方式
-1. 克隆仓库： git clone https://github.com/ggbond534/Hue.git ；
+1. 克隆仓库： git clone https://github.com/ggbond534/Hue.git 
 2. 打开项目：用Unity 2022.3.62f2c1导入克隆后的项目文件夹，等待资源加载完成；
 3. 运行游戏：打开Scenes文件夹下的 Hue.unity ，点击Unity编辑器播放按钮即可启动。
